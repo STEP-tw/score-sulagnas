@@ -26,6 +26,7 @@
 }
 
 #score{
+  margin-left: 600px;
   font-size: 20px;
   color: red;
 }
