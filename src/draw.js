@@ -13,8 +13,9 @@ const drawGrids=function(numberOfRows,numberOfCols) {
 
 const paintCell=function(pos,color) {
   let cell=document.getElementById(pos.getCoord().join("_"));
-  if(cell)
+  if(cell){
     cell.className=color;
+  }
 }
 
 const paintBody=function(pos) {
@@ -37,5 +38,9 @@ const drawSnake=function(snake) {
 }
 
 const drawFood=function(food) {
-  paintCell(food,"food");
+  if(food.isSuperFood()){
+    paintCell(food.getPosition(),"super-food");
+  } else{
+    paintCell(food.getPosition(),"food");
+  }
 }
