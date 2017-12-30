@@ -1,6 +1,7 @@
 const Snake=function(head,body) {
   this.head=head;
   this.body=body;
+  this.score=0;
 }
 
 Snake.prototype={
