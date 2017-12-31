@@ -8,7 +8,7 @@ const animateSnake=function() {
   }
   if(game.hasSnakeEatenFood()) {
     game.grow();
-    updateScore();
+    updateScore(10);
     game.createFood();
     drawFood(game.getFood());
   }
