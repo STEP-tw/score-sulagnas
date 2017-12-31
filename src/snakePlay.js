@@ -3,16 +3,16 @@ const animateSnake=function() {
   paintBody(details.oldHead);
   unpaintSnake(details.oldTail);
   paintHead(details.head);
-  if(game.isTouchedToWall(numberOfRows,numberOfCols) || game.snake.hasEatenItself()){
-    gameOver();
-  }
   if(game.hasSnakeEatenFood()) {
     game.grow();
     updateScore(10);
     game.createFood();
     drawFood(game.getFood());
   }
-}
+  if(game.isTouchedToWall(numberOfRows,numberOfCols) || game.snake.hasEatenItself()){
+    gameOver();
+  }
+};
 
 const changeSnakeDirectionByKey=function(event) {
   switch (event.code) {
@@ -27,13 +27,13 @@ const changeSnakeDirectionByKey=function(event) {
       break;
     default:
   }
-}
+};
 
 const addKeyListener=function() {
   let grid=document.getElementById("keys");
   grid.onkeyup=changeSnakeDirectionByKey;
   grid.focus();
-}
+};
 
 const startPlayGame=function() {
   document.getElementById('score').style.visibility='visible';
@@ -45,4 +45,4 @@ const startPlayGame=function() {
   drawFood(game.getFood());
   addKeyListener();
   animator=setInterval(animateSnake,50);
-}
+};
