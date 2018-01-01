@@ -4,7 +4,7 @@ let numberOfCols=120;
 let animator=undefined;
 
 const updateScore=function (points) {
-  let updatedScore=game.newScore(points);
+  let updatedScore=game.incrementScore(points);
   let score=document.getElementById('score');
   score.innerHTML=`your score is: ${updatedScore}`;
 }

@@ -55,7 +55,7 @@ Game.prototype.createFood=function() {
   this.food=new Food(position,growthFactor,superFood);
 }
 
-Game.prototype.newScore=function (points) {
+Game.prototype.incrementScore=function (points) {
   this.score+=points;
   return this.score;
 }
