@@ -1,13 +1,21 @@
-const animateSnake=function() {
+const makeSnake=function () {
   let details=game.move();
   paintBody(details.oldHead);
   unpaintSnake(details.oldTail);
   paintHead(details.head);
+}
+
+const updateGame=function () {
+  game.grow();
+  updateScore(10);
+  game.createFood();
+  drawFood(game.getFood());
+}
+
+const animateSnake=function() {
+  makeSnake()
   if(game.hasSnakeEatenFood()) {
-    game.grow();
-    updateScore(10);
-    game.createFood();
-    drawFood(game.getFood());
+    updateGame();
   }
   if(game.isTouchedToWall(numberOfRows,numberOfCols) || game.snake.hasEatenItself()){
     gameOver();

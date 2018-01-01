@@ -63,6 +63,7 @@ const changeSnakeDirection=function () {
 };
 
 const getNextFood=function () {
+  console.log('food');
   game.createFood();
   drawFood(game.getFood());
 };
@@ -81,29 +82,75 @@ const turnIfSnakeIsInNorth=function (snakeHead,food) {
   return game.turnRight();
 };
 
-const turnSnake=function () {
-  let snakeHead=game.snake.getHead();
-  let food=game.food.position;
-  if(snakeHead.direction=='south'){
-    turnIfSnakeIsInSouth(snakeHead,food);
+const turnIfSnakeIsInEast=function (snakeHead,food) {
+  if(snakeHead.x>food.x){
+    if(snakeHead.y>food.y){
+      return game.turnLeft();
+    }
+    return game.turnRight();
   }
-  else{
-    turnIfSnakeIsInNorth(snakeHead,food);
-  }
-  changeSnakeDirection();
 };
 
-const animateSnakeBot=function() {
+const turnIfSnakeIsInWest=function (snakeHead,food) {
+  if(snakeHead.x<food.x){
+    if(snakeHead.y>food.y){
+      return game.turnRight();
+    }
+    return game.turnLeft();
+  }
+};
+
+const chooseSnakeDirections=function (direction) {
+  let snakeHead=game.snake.getHead();
+  let food=game.food.position;
+  let directions={
+    'east':turnIfSnakeIsInEast,
+    'west':turnIfSnakeIsInWest,
+    'north':turnIfSnakeIsInNorth,
+    'south':turnIfSnakeIsInSouth
+  }
+  return directions[direction](snakeHead,food);
+}
+
+const turnSnake=function () {
+  let snakeHead=game.snake.getHead();
+  chooseSnakeDirections(snakeHead.direction)
+};
+
+const updateGameAndBot=function () {
+  ++counter;
+  game.grow();
+  updateScore(10);
+  getNextFood();
+  turnSnake();
+}
+
+const doIfFirstFoodIsBehindSnake=function () {
+  if(game.snake.getHead().x>game.food.position.x){
+    ++counter;
+    if(game.snake.getHead().y<game.food.position.y){
+      return game.turnRight();
+    }
+    return game.turnLeft();
+  }
+}
+
+const makeSnakeBot=function () {
   let details=game.move();
   paintBody(details.oldHead);
   unpaintSnake(details.oldTail);
   paintHead(details.head);
+}
+
+let counter=0;
+const animateSnakeBot=function() {
+  makeSnakeBot();
   changeSnakeDirection();
+  if(counter==0){
+    doIfFirstFoodIsBehindSnake();
+  }
   if(game.hasSnakeEatenFood()) {
-    game.grow();
-    updateScore(10);
-    getNextFood();
-    turnSnake();
+    updateGameAndBot();
   }
   if(game.isTouchedToWall(numberOfRows,numberOfCols) || game.snake.hasEatenItself()){
     gameOver();
